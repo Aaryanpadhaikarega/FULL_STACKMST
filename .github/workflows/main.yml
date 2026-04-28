@@ -1,0 +1,35 @@
+name: Run Tests
+
+on: [push]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # Backend
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Backend Test
+        run: |
+          cd finalmst_practical/backend
+          python -m pip install flask pytest
+          python -m pytest
+
+      # Frontend
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Frontend Test
+        run: |
+          cd finalmst_practical/frontend
+          npm install
+          npm install jsdom
+          npx vitest run
